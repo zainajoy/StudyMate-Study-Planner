@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "StudyMate"
+description = "A personal study planner that helps students organize subjects and topics, generate a practical exam timetable from their availability and confidence levels, track progress, and back up their data locally."
+version = "1.0.0"
+id = "artifacts/studymate"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24152
+
+[services.development]
+run = "pnpm --filter @workspace/studymate run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/studymate", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/studymate/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24152"
+BASE_PATH = "/"
